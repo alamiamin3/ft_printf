@@ -6,95 +6,95 @@
 /*   By: aalami <aalami@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:21:30 by aalami            #+#    #+#             */
-/*   Updated: 2022/11/10 20:25:11 by aalami           ###   ########.fr       */
+/*   Updated: 2022/11/11 20:33:12 by aalami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <string.h>
 
-int    ft_format(char c, va_list arg, int chr_nbr)
+
+int    ft_format(char c, va_list arg)
 {
-    unsigned long long  ret;
-    char *ret_s;
+    int chr_nbr;
     
+    chr_nbr = 0;
     if(c == 'c')
+        return (ft_putchar(va_arg(arg,int)));
+    else if(c == 'd' || c == 'i')
+        return(ft_putnbr(va_arg(arg,int),&chr_nbr));
+    else if(c == 's')
+        return(ft_putstr(va_arg(arg,char *)));
+    else if(c == 'p')
+        return (ft_putstr("0x") + covert_hex(va_arg(arg,unsigned long),0));
+    else if(c == 'x' || c == 'X')
     {
-        ret = va_arg(arg,unsigned long long);
-        ft_putchar(ret);
-        return(chr_nbr + 1);
+        if(c == 'x')
+           return (covert_hex(va_arg(arg,unsigned int ),0)); 
+        return (covert_hex(va_arg(arg,unsigned int ),1));
     }
-    if(c == 'd' || c == 'i')
-    {
-        ret = va_arg(arg,unsigned long long);
-        return(ft_putnbr(ret) + chr_nbr);
-    }
-    if(c == 's')
-    {
-        ret_s = va_arg(arg,char *);
-        return(ft_putstr(ret_s) + chr_nbr);
-    }
-    if(c == 'p')
-    {
-        ret = va_arg(arg,unsigned long long);
-        chr_nbr = ft_putstr("0x") + chr_nbr;
-        return (covert_hex(ret,0) + chr_nbr);
-    }
-    if(c == 'u')
-    {
-        ret = va_arg(arg,unsigned int);
-        return(ft_putnbr(ret) + chr_nbr);
-        
-    }
-    if(c == 'x' || c == 'X')
-    {
-        ret = va_arg(arg,unsigned long long);
-        if(c== 'x')
-           return (covert_hex(ret,0) + chr_nbr); 
-        return (covert_hex(ret,1) + chr_nbr);
-    }
-    return(chr_nbr);
+    else
+        return(ft_putnbr(va_arg(arg,unsigned int),&chr_nbr));
+}
+int get_specifier(char c,va_list arg)
+{
+    char *specifier;
+    int chr;
+
+    chr = 0;
+    specifier = "cspdiuxX";
+    
+        if(!ft_strchr(specifier,c))
+            chr += ft_putchar(c);
+        else
+            chr += ft_format(c, arg);
+    return (chr);
 }
 int ft_printf(const char *format, ...)
 {
     va_list arg;
     int i;
-    unsigned int ret;
-    char *ret_s;
-    unsigned long long ret_p;
     int chr;
-    va_start(arg, format);
+
     chr = 0;
     i = 0;
+    va_start(arg, format);
     while(format[i])
     {
-        while(format[i] != '%' && format[i] != '\0')
-        {    
-            ft_putchar(format[i]);
-            i++;
-            if(format[i] == '\0' )
-             {   ft_putchar('\0');
-                chr++;}
-            chr++;
+        while(format[i] != '%' && format[i] != '\0') 
+            chr += ft_putchar(format[i++]);
+        if(!format[i])
+            break;
+        if(format[i] == '%' && format[i+1] == '%')
+        {
+            chr += ft_putchar(format[i]);
+            i += 2;
+            continue;
         }
-        i++;
-        chr = ft_format(format[i], arg, chr);
+        if(!format[++i])
+            break;
+        chr += get_specifier(format[i],arg);
         i++;
     }
+    va_end(arg);
     return(chr);
 }
 
-int main()
-{
-    // ft_printf("%c %d %c %s\n",'a',22,'c',"heheheheh");
-    // printf("%i\n",2616461);
-    // printf("%lu\n","hdhshvas");
-    // ft_printf("%lu\n","hdhshvas");
-    int a ;
-    int a1 ;
-    a = printf("%X %u\n",500,-100);
-    a1 = ft_printf("%X %u\n",500, -100);
-    // printf("%d\n",a);
-    // printf("%d\n",a1);
+// int main()
+// {
+//     // ft_printf("%c %d %c %s\n",'a',22,'c',"heheheheh");
+//     // printf("%i\n",2616461);
+//     // printf("%lu\n","hdhshvas");
+//     // ft_printf("%lu\n","hdhshvas");
 
-    // ft_printf("%p","hdhshvas");
-}
+//     int a ;
+//     // int a2 = printf("%d",555);
+//     // ft_printf("%i %%%%%%kksksksk",1123456789);
+//     printf("\n%d\n",ft_printf("abcd %c %d %p %i",'a',54,&a,54));
+//     printf("\n%d\n",printf   ("abcd %c %d %p %i",'a',54,&a,54));
+//     // ft_printf("\n%d\n",ft_printf("%p %i ",&a,54));
+//     // printf("\n%d\n",printf      ("%p %i ",&a,54));
+//     // printf("%d",23456789);
+
+//     // ft_printf("%p","hdhshvas");
+// }

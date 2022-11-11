@@ -1,37 +1,44 @@
 #include "ft_printf.h"
-int covert_hex(unsigned long long num, int alpha)
+int print_hexa(unsigned long *s,int i,int form)
 {
-    unsigned long long div;
-    unsigned long long res;
     int ret;
-    unsigned long long remain[17];
+
+    ret = 0;
+    while(i >= 0)
+    {
+        if(s[i] >= 10 && s[i] <= 15)
+        {
+          if(!form)
+            ft_putchar(s[i] + 87);
+           else
+            ft_putchar(s[i] + 55);
+        }
+        else
+          ft_putchar(s[i] + 48);
+        ret ++;
+        i--;
+    }
+    return (ret);
+}
+int covert_hex(unsigned long num, int alpha)
+{
+    unsigned long div;
+    int ret;
+    unsigned long remain[17];
     int i = 0;
 
+    ret = 0;
+    if(num == 0) 
+      return (ret + ft_putchar('0'));
     div = num;
     while(div)
     {
         remain[i] = div % 16;
-        // printf("%llu\n",remain[i]);
         div = div / 16;
         if(div)
             i++;
     }
-    ret = 0;
-    while(i >= 0)
-    {
-        // ret = ret * 10 + remain[i];
-        if(remain[i] >= 10 && remain[i] <= 15)
-        {
-          if(!alpha)
-            ft_putchar(remain[i] + 87);
-           else
-            ft_putchar(remain[i] + 55);
-        }
-        else
-          ft_putchar(remain[i] + 48);
-        ret ++;
-        i--;
-    }
+    ret = print_hexa(remain,i,alpha);
     return(ret);
 }
 // int main()

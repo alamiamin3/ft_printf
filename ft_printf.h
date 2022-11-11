@@ -7,8 +7,10 @@
 
 int ft_printf(const char *format, ...);
 int	ft_putstr(char *s);
-int	ft_putnbr(unsigned long long n);
-void    ft_putchar(char c);
-int covert_hex(unsigned long long num, int alpha);
+int	ft_putnbr(long long n,int *num);
+int    ft_putchar(char c);
+int covert_hex(unsigned long num, int alpha);
+int	ft_strchr(const char *s, int c);
+int print_hexa(unsigned long *s,int i,int form);
 
 #endif

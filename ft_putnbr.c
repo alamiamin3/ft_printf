@@ -6,13 +6,13 @@
 /*   By: aalami <aalami@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:56:36 by aalami            #+#    #+#             */
-/*   Updated: 2022/11/10 19:10:27 by aalami           ###   ########.fr       */
+/*   Updated: 2022/11/11 16:23:07 by aalami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putnbr(unsigned long long n)
+int	ft_putnbr(long long n,int *num)
 {
 	// if (n == -2147483648)
 	// {
@@ -20,23 +20,19 @@ int	ft_putnbr(unsigned long long n)
 	// 	ft_putchar('2');
 	// 	n = 147483648;
 	// }
-	int ret;
-	ret = 0;
 	if (n >= 0 && n < 10)
 	{	
-		ft_putchar(('0' + n));
-		ret++;
+		*num += ft_putchar(('0' + n));
 	}
 	else if (n < 0)
 	{
-		ft_putchar('-');
-		ret++;
-		ft_putnbr((n * -1));
+		*num += ft_putchar('-');
+		ft_putnbr((n * -1),num);
 	}
 	else
 	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
+		ft_putnbr(n / 10,num);
+		ft_putnbr(n % 10,num);
 	}
-	return(ret);
+	return(*num);
 }

@@ -6,7 +6,7 @@
 /*   By: aalami <aalami@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:10:12 by aalami            #+#    #+#             */
-/*   Updated: 2022/11/10 19:11:13 by aalami           ###   ########.fr       */
+/*   Updated: 2022/11/11 17:03:01 by aalami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ int	ft_putstr(char *s)
 
 	ret = 0;
 	if (!s)
-		return (0);
+		s = "(null)";
 	while (*s)
 	{
-		ft_putchar(*s);
-		ret++;
+		ret += ft_putchar(*s);
 		s++;
 	}
 	return(ret);
