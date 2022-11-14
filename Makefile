@@ -1,13 +1,15 @@
 NAME = libftprintf.a
 
 
-SOURCES = \
-			ft_printf.c ft_putnbr.c ft_putstr.c ft_putchar.c \
-			test.c ft_strchr.c
+SOURCES = ft_printf.c \
+		  ft_putnbr.c \
+		  ft_putstr.c \
+		  ft_putchar.c \
+		  convert_hex.c \
+		  ft_strchr.c
 
 
 OBJ = $(SOURCES:.c=.o)
-
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -19,7 +21,7 @@ $(NAME): $(OBJ)
 
 
 %.o: %.c ft_printf.h
-	$(CC) -c $(CFLAGS) $?
+	$(CC) -c $(CFLAGS) $<
 
 clean:
 	rm -f $(OBJ)

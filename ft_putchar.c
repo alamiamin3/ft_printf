@@ -6,14 +6,14 @@
 /*   By: aalami <aalami@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:43:31 by aalami            #+#    #+#             */
-/*   Updated: 2022/11/11 14:12:54 by aalami           ###   ########.fr       */
+/*   Updated: 2022/11/14 09:17:56 by aalami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int    ft_putchar(char c)
+int	ft_putchar(char c)
 {
-    write(1,&c,1);
-    return(1);
+	write(1, &c, 1);
+	return (1);
 }
